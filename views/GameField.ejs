@@ -305,7 +305,7 @@ bestScoreFormData.addEventListener('submit',async (e)=>{
   const mobile = formData.getAll('mobile')[0];
  const userData = {name,lastname,city,mobile,myscore}
 
- const res = await fetch('http://localhost:3000/score',{
+ const res = await fetch('/score',{
   method:"POST",
   headers:{ "Content-Type": "application/json"},
   body:JSON.stringify(userData)
