@@ -1,0 +1,104 @@
+button#play {
+    color: white;
+    
+    
+    font-weight: 300;
+    font-size: 1.2em;
+    font-family: 'Lato';
+    background: none;
+	color: inherit;
+	border: none;
+    top: 70%;
+    left: 7.5%;
+    padding: 20%;
+    padding-left: 40%;
+    padding-right: 40%;
+    position: absolute;
+    
+  }
+
+  button#score {
+    color: black;
+    
+    
+    font-weight: 300;
+    font-size: 1.2em;
+    font-family: 'Lato';
+    background: none;
+	color: inherit;
+	border: none;
+    top: 5%;
+    left: 7.5%;
+    padding: 20%;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 5px;
+    position: absolute;
+    
+  }
+
+  button#share {
+    color: white;
+    
+    
+    font-weight: 300;
+    font-size: 1.2em;
+    font-family: 'Lato';
+    background: #38BEA7;
+
+	border: none;
+    top: 75%;
+    left: 16%;
+    padding: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    position: absolute;
+    border-radius: 4px;
+    visibility:hidden;
+    
+  }
+  button#again {
+    color: white;
+    
+    
+    font-weight: 300;
+    font-size: 1.2em;
+    font-family: 'Lato';
+    
+    background: #9BC9FF;
+	
+	border: none;
+    top: 75%;
+    right: 16%;
+    padding: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    position: absolute;
+    border-radius: 4px;
+    visibility: hidden;
+    
+  }
+
+  input{
+    width: 35%;
+    margin-bottom: 3px;
+    font-family: 'Lato';
+  }
+  input#submitButton{
+    width: 76%;
+    margin-bottom: 3px;
+    font-family: 'Lato';
+    background-color: #38BEA7;
+    color: white;
+    border: 1px #38BEA7 solid;
+  }
+ 
+  div#userInfo {
+    position: absolute;
+    text-align:center;
+    top: 75%;
+    visibility: hidden;
+    display: block;
+    margin-left: 0%;
+    margin-right: 3%;
+  }

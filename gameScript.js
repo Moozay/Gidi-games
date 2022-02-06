@@ -1,0 +1,303 @@
+
+//-----------------START OF JS CODE----------------------------
+// Matter.js module aliases
+var Engine = Matter.Engine,
+World = Matter.World,
+Body = Matter.Body,
+Render = Matter.Render,
+Bodies = Matter.Bodies,
+Composites = Matter.Composites,
+Composite = Matter.Composite,
+Constraint = Matter.Constraint,
+Runner = Matter.Runner;
+
+//----------------GLOBAL VARIABLES-------------------------
+//Resizing canvas dimension based on device screen size
+var HighScoreToday;
+var GameOver=false;
+var canvasWidth;
+var canvasHeight;
+var ballmoving=false;
+if(window.innerWidth>1000){
+    canvasWidth=1000;
+    canvasHeight=window.innerHeight;
+}else{
+    canvasWidth=window.innerWidth;
+    canvasHeight=window.innerHeight;
+}
+
+
+// create an engine
+var engine = Engine.create(
+);
+// create runner
+var runner = Runner.create();
+// Styling of Canvas created in HTML
+/*var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.moveTo(0,0); //Centralising the canvas
+        ctx.stroke();*/
+
+// create a renderer
+var render1 = Render.create({
+    element: document.body,
+    engine: engine,
+    //canvas:c,
+   
+    //Dimension of Full BackGround
+    options: {
+      width: window.innerWidth-18,
+      height: window.innerHeight-19.1,
+      wireframes: false // <-- important
+      
+    }
+    
+});
+var winDiff1 = (window.innerWidth-canvasWidth)/2;
+var winDiff2 = (window.innerWidth-canvasWidth)/2 + canvasWidth/10;
+
+//----------------GLOBAL VARIABLES-------------------------
+
+
+//-------------Normal World-----------------------------
+//World gravity
+engine.gravity.x=-0.0;
+engine.gravity.y=-0.00;
+
+
+
+//-------------On Tap---------------------------------------
+
+function myFunction() {
+    if(GameOver==false){
+    ballmoving=true;
+    ball.force.x=0.0105;
+    ball.force.y=-0;
+    engine.gravity.x=-0.9;
+   
+}
+}
+
+//----------PLAY AGAIN FUNCTION
+function againFunction() {
+    window.location.reload();
+}
+
+//----------SHARE IT FUNCTION
+
+
+// --------------------Game Elements------------------------
+
+//Array of background colours
+const ColArray = ['#FFF6C5','#FFE1C5','#CEFCF4','#9BC9FF'];
+var colChosen = Math.floor(Math.random() * 3);
+
+//----Red Ball
+var ball = Bodies.circle(window.innerWidth/2, window.innerHeight*0.35, canvasWidth*0.04, { isStatic: false,
+
+render: {
+  fillStyle: '#F03849',
+  strokeStyle: 'red',
+  lineWidth: 0.5
+  
+}
+
+});
+
+var FullBackGround = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2, window.innerWidth, window.innerHeight, {isStatic:true,
+render:{
+    fillStyle:'white'
+}
+});
+FullBackGround.collisionFilter.category=0;
+
+var GameField = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2, canvasWidth, canvasHeight, {isStatic:true,
+render:{
+    fillStyle:ColArray[colChosen]
+}
+});
+GameField.collisionFilter.category=0;
+
+var pole1 = Bodies.rectangle(winDiff1, -canvasHeight/2.4225, canvasWidth*0.78, canvasHeight*0.025, { isStatic: true, render:{fillStyle:'#B87A31', strokeStyle:'#255F0F', lineWidth:4} });
+var pole2 = Bodies.rectangle(winDiff1+canvasWidth, -canvasHeight/2.4225, canvasWidth*0.78, canvasHeight*0.025, { isStatic: true, render:{fillStyle:'#B87A31', strokeStyle:'#255F0F', lineWidth:4} });
+
+var pole3 = Bodies.rectangle(winDiff2, -canvasHeight/3.876, canvasWidth*0.78, canvasHeight*0.025, { isStatic: true, render:{fillStyle:'#B87A31', strokeStyle:'#255F0F', lineWidth:4} });
+var pole4 = Bodies.rectangle(winDiff2+canvasWidth, -canvasHeight/3.876, canvasWidth*0.78, canvasHeight*0.025, { isStatic: true, render:{fillStyle:'#B87A31', strokeStyle:'#255F0F', lineWidth:4} });
+
+var pole5 = Bodies.rectangle(winDiff1, -canvasHeight/9.69, canvasWidth*0.78, canvasHeight*0.025, { isStatic: true, render:{fillStyle:'#B87A31', strokeStyle:'#255F0F', lineWidth:4} });
+var pole6 = Bodies.rectangle(winDiff1+canvasWidth, -canvasHeight/9.69, canvasWidth*0.78, canvasHeight*0.025, { isStatic: true, render:{fillStyle:'#B87A31', strokeStyle:'#255F0F', lineWidth:4} });
+
+var pole7 = Bodies.rectangle(winDiff1, canvasHeight/19.38, canvasWidth*0.78, canvasHeight*0.025, { isStatic: true, render:{fillStyle:'#B87A31', strokeStyle:'#255F0F', lineWidth:4} });
+var pole8 = Bodies.rectangle(winDiff1+canvasWidth, canvasHeight/19.38, canvasWidth*0.78, canvasHeight*0.025, { isStatic: true, render:{fillStyle:'#B87A31', strokeStyle:'#255F0F', lineWidth:4} });
+
+var TopCover = Bodies.rectangle(window.innerWidth/2, 0, window.innerWidth+5, 150, { isStatic: true, 
+  render:{
+    fillStyle:ColArray[colChosen], 
+  } });
+var BottomCover = Bodies.rectangle(window.innerWidth/2, window.innerHeight, window.innerWidth+5, window.innerHeight*0.7, { isStatic: true, 
+    render:{
+      fillStyle:ColArray[colChosen], 
+    } });
+    
+
+var LeftWall = Bodies.rectangle(0, 812/2, 5, 812, { isStatic: true, 
+  render:{
+    fillStyle:'#ffffff', 
+  } });
+var RightWall = Bodies.rectangle(window.innerWidth, 812/2, 5, 812, { isStatic: true, 
+    render:{
+      fillStyle:'#fffffF', 
+    } });
+var AdSpace = Bodies.rectangle(window.innerWidth/2, window.innerHeight, window.innerWidth+5, 150, { isStatic: true, 
+      render:{
+        fillStyle:'green',
+        visible:false 
+      } });
+
+// BALL PHYSICAL PROPERTIES      
+ball.restitution=1;
+ball.friction=1;
+ball.frictionAir=0.15;
+ball.mass=0.5;
+
+//--------------Add Elements to the world-------------------
+Composite.add(engine.world, [FullBackGround, GameField, pole1, pole2, pole3, pole4, pole5, pole6, pole7, pole8, TopCover, BottomCover,ball]);
+
+
+//----Motion of poles
+setInterval(() => {
+if(GameOver==false && ballmoving==true){
+  if(1){
+  Body.translate(pole1, {x:0, y:0.45});
+  Body.translate(pole2, {x:0, y:0.45});
+  Body.translate(pole3, {x:0, y:0.45});
+  Body.translate(pole4, {x:0, y:0.45});
+  Body.translate(pole5, {x:0, y:0.45});
+  Body.translate(pole6, {x:0, y:0.45});
+  Body.translate(pole7, {x:0, y:0.45});
+  Body.translate(pole8, {x:0, y:0.45});
+
+
+//Repeating poles that have moved outside the screen
+
+if(pole8.position.y>window.innerHeight/1.4){
+  var transx0 = Math.floor(Math.random() * 200) - 100;
+  var grab8=pole8.position.x+transx0;
+  var grab7=pole7.position.x+transx0;
+  //console.log(grab6,grab5,window.innerWidth);
+  if(grab8<=50-window.innerWidth/2 || grab8>=window.innerWidth*1.5-60 || grab7<=50-window.innerWidth/2 || grab7>=window.innerWidth*1.5-60){
+    Body.translate(pole8, {x:0, y:-window.innerHeight/1.615});
+    Body.translate(pole7, {x:0, y:-window.innerHeight/1.615});
+  }else{
+  Body.translate(pole8, {x:transx0, y:-window.innerHeight/1.615});
+  Body.translate(pole7, {x:transx0, y:-window.innerHeight/1.615});
+  }
+}
+if(pole6.position.y>window.innerHeight/1.4){
+  var transx1 = Math.floor(Math.random() * window.innerWidth/1.875) - window.innerWidth/3.75;
+  var grab6=pole6.position.x+transx1;
+  var grab5=pole5.position.x+transx1;
+  console.log(grab6,grab5,window.innerWidth);
+  if(grab6<=50-window.innerWidth/2 || grab6>=window.innerWidth*1.5-60 || grab5<=50-window.innerWidth/2 || grab5>=window.innerWidth*1.5-60){
+    Body.translate(pole6, {x:0, y:-window.innerHeight/1.615});
+    Body.translate(pole5, {x:0, y:-window.innerHeight/1.615});
+  }else{
+  Body.translate(pole6, {x:transx1, y:-window.innerHeight/1.615});
+  Body.translate(pole5, {x:transx1, y:-window.innerHeight/1.615});
+  }
+}
+if(pole4.position.y>window.innerHeight/1.4){
+  var transx2 = Math.floor(Math.random() * window.innerWidth/1.875) - window.innerWidth/3.75;
+  var grab4=pole4.position.x+transx2;
+  var grab3=pole3.position.x+transx2;
+  if(grab4<=50-window.innerWidth/2 || grab4>=window.innerWidth*1.5-60 || grab3<=50-window.innerWidth/2 || grab3>=window.innerWidth*1.5-60){
+    Body.translate(pole4, {x:0, y:-window.innerHeight/1.615});
+    Body.translate(pole3, {x:0, y:-window.innerHeight/1.615});
+  }else{
+  Body.translate(pole4, {x:transx2, y:-window.innerHeight/1.615});
+  Body.translate(pole3, {x:transx2, y:-window.innerHeight/1.615});
+}
+}
+if(pole2.position.y>window.innerHeight/1.4){
+  var transx3 = Math.floor(Math.random() * window.innerWidth/1.875) - window.innerWidth/3.75;
+  var grab2=pole2.position.x+transx3;
+  var grab1=pole1.position.x+transx3;
+  if(grab2<=50-window.innerWidth/2 || grab2>=window.innerWidth*1.5-50 || grab1<=50-window.innerWidth/2 || grab1>=window.innerWidth*1.5-50){
+    Body.translate(pole2, {x:0, y:-window.innerHeight/1.615});
+    Body.translate(pole1, {x:0, y:-window.innerHeight/1.615});
+  }else{
+  Body.translate(pole2, {x:transx3,y:-window.innerHeight/1.615});
+  Body.translate(pole1, {x:transx3, y:-window.innerHeight/1.615});
+}
+}
+
+
+}}}, 4);
+
+
+
+
+var myscore=0;
+var ShowOnce = 0;
+var buttonPlay = document.getElementById('play')
+var button = document.getElementById('score');
+var buttonAgain = document.getElementById('again');
+var buttonShare = document.getElementById('share');
+var divUserInfo = document.getElementById('userInfo');
+
+
+//Score counting
+setInterval(() => {
+
+  if(ballmoving==true && ShowOnce==0){
+    myscore=myscore+1;
+    button.innerText = myscore;
+  }
+
+},1550);
+
+//collision rules
+Matter.Events.on(engine, 'collisionStart', function(event) {
+
+  engine.gravity.x=0
+  engine.gravity.y=2
+  ball.friction=0.01
+  ball.frictionAir=0.1
+  ball.mass=0.3
+  GameOver=true
+  
+//call mongodb and get high score
+
+
+//call over
+  
+  setTimeout(() => {
+    buttonPlay.innerText='';
+    
+    if(ShowOnce==0){
+     
+        if(myscore<=2){
+       buttonAgain.style.visibility='visible';
+       buttonShare.style.visibility='visible';
+       
+          }else{
+            button.innerText='NEW HIGH SCORE !';
+            divUserInfo.style.visibility='visible';
+          }
+    ShowOnce=1;
+    }
+  }, 700)
+
+});
+
+//Function for on submit. call and update mongo db. then go to home page
+
+//END-------------------------------------------------------------------
+
+// run the renderer
+Render.run(render1);
+
+
+// run the engine
+Runner.run(runner, engine);
+console.log(HighScoreToday);
