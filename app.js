@@ -33,7 +33,7 @@ app.set('view engine', 'ejs');
 getHighScore()
 
 app.get('/', (req, res)=>{
-    res.render("index",{highScore,name,lname,city})
+    res.render("Index",{highScore,name,lname,city})
 })
 
 app.get('/GameField', (req, res)=>{
